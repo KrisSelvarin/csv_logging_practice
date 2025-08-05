@@ -54,10 +54,6 @@ Year,Quarter,Dividends,Shares
 1,2,58.25,1400
 ...
 
-yaml
-Copy
-Edit
-
 Each row shows the total dividends received and the accumulated shares at the end of each quarter.
 
 ---
