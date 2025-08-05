@@ -195,8 +195,9 @@ def read(constant):
     print("--------------------------------------------------------")
 
     choice = input("Open Dividend Log (Y/N)? ").lower()
-    print("\nDividend Log\n")
+
     if choice == 'y':
+        print("\nDividend Log\n")
         filename = constant['name'].split('(')[-1].strip(')').lower() + f"_div.csv"
         with open(filename, 'r') as file:
             read = csv.DictReader(file)
