@@ -78,3 +78,15 @@ Outputs overwrite existing .csv files for each run.
 
 Designed for personal simulation and learning purposes.
 
+## Version History
+
+### v1.1 – Class-based Refactor (2025-08-13)
+- Rewrote simulation using OOP (classes for Stock, Market, User, Calculation).
+- Added cleaner stock info display.
+- Logging now uses `csv.DictWriter`.
+- More readable and maintainable code.
+
+### v1.0 – Initial Release
+- Procedural code for DRIP simulation of RCR and CREIT.
+- CSV logging of dividends and shares.
+
