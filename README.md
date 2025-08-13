@@ -1,4 +1,4 @@
-# 📈 DRIP Simulation with CSV Logging
+# 📈 DRIP Simulation
 
 A Python tool to simulate **Dividend Reinvestment Plans (DRIP)** for two Philippine REIT stocks:
 
