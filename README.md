@@ -1,92 +1,107 @@
-# 📈 DRIP Simulation
+# DRIP Simulator OOP
 
-A Python tool to simulate **Dividend Reinvestment Plans (DRIP)** for two Philippine REIT stocks:
+A Python program that simulates a **Dividend Reinvestment Plan (DRIP)** for two sample stocks — **CITICORE ENERGY REIT CORP. (CREIT)** and **RL COMMERCIAL REIT INC. (RCR)** — using an **Object-Oriented Programming (OOP)** approach.
 
-- CITICORE ENERGY REIT CORP. (CREIT)
-- RL COMMERCIAL REIT INC. (RCR)
-
-It calculates accumulated shares and reinvested dividends based on:
-- Monthly deposits
-- Investment duration (in years)
-- Quarterly dividend payouts
-- Board lot constraints
-
-All simulation results are saved to CSV files for review and analysis.
+> ⚠️ **Note:** This is a **noob-level project** created purely for learning and mastery of Python and OOP concepts.  
+> It is **not** intended for real-world financial decision-making.
 
 ---
 
-## 🛠️ Features
-
-- Terminal-based menu for stock selection
-- User input for monthly deposit & duration
-- Simulates share accumulation with DRIP
-- Outputs dividend/share log to a `.csv` file
-- Prints a detailed investment summary
-
----
-
-## 🧠 How It Works
-
-1. Select between **CREIT** or **RCR**
-2. Input your:
-   - Monthly deposit amount
-   - Investment duration in years
-3. The program:
-   - Simulates quarterly dividend payouts
-   - Buys shares only in board lot multiples
-   - Reinvests dividends into new shares
-   - Logs the data to a CSV file
-4. Optionally displays the dividend log
+## ✨ Features
+- Two preloaded stocks:
+  - CREIT
+  - RCR
+- Uses OOP structure with:
+  - `Name` class for company/ticker info
+  - `Stock` class for stock data and info display
+  - `Market` class for stock management
+  - `User` class for investment input
+  - `Calculation` class for DRIP math and CSV logging
+- Dividend pay-out frequency:
+  - Monthly
+  - Quarterly
+  - Bi-Annually
+  - Annually
+- Supports fractional dividend reinvestment
+- Saves dividend logs to a CSV file
+- Displays a clear investment summary
 
 ---
 
-## 📄 Output CSV Files
+## 📌 How It Works
+1. **Menu** — Choose a stock (CREIT or RCR) or view their details.
+2. **User Input** — Enter monthly investment amount and investment duration.
+3. **Simulation** — Program calculates shares bought, dividends received, and reinvestments.
+4. **CSV Export** — Dividend log saved automatically.
+5. **Summary** — Displays ROI, total shares, and final portfolio value.
 
-Depending on the stock selected, one of these files is generated:
+---
 
-- `creit_div.csv` – for CREIT
-- `rcr_div.csv` – for RCR
+## 🖥️ Example Run
+```
+DRIP SIMULATION FOR RCR AND CREIT
 
-### 📂 Sample Format
+Choose Stock:
+[1] CITICORE ENERGY REIT CORP. (CREIT)
+[2] RL COMMERCIAL REIT INC. (RCR)
+[3] Display Stocks' Info
+[4] Exit
+Selection: 1
 
-Year,Quarter,Dividends,Shares
-1,1,54.50,1200
-1,2,58.25,1400
-...
+Monthly Investment: ₱5000
+Investment Duration (Years): 3
 
-Each row shows the total dividends received and the accumulated shares at the end of each quarter.
+Summary:
+CITICORE ENERGY REIT CORP.   (CREIT)
+
+Price per Share:        ₱3.68
+Yield % (Indicated):    5.49%
+Dividend Pay-out:       Quarterly
+Minimum Board Lot:      1,000 shares
+Monthly Investment:     ₱5,000.00
+Investment Duration:    3 years
+Total Investment:       ₱180,000.00
+Total Shares Bought:    49,000
+Total Shares Cost:      ₱180,320.00
+Return on Investment:   0.18%
+
+Open Dividend Log (Y|N)?
+```
+
+---
+
+## 📂 Files Created
+- `creit_div.csv` — Dividend log for CREIT
+- `rcr_div.csv` — Dividend log for RCR
 
 ---
 
 ## 🚀 How to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/drip-simulator-oop.git
+   ```
+2. Navigate into the directory:
+   ```bash
+   cd drip-simulator-oop
+   ```
+3. Run the program:
+   ```bash
+   python main.py
+   ```
 
-Make sure Python is installed. Then in your terminal:
+---
 
-```bash
-python your_script_name.py
-Replace your_script_name.py with the actual file name (e.g., drip_simulator.py).
+## 🧠 Learning Goals
+- Practice Python **classes** and **methods**
+- Understand how to structure a program using **OOP principles**
+- Learn how to save and read data from **CSV files**
+- Improve DRIP calculation logic from a procedural approach to an object-oriented one
 
-✅ Requirements
-Python 3.x
+---
 
-No external libraries (only uses Python’s built-in csv module)
-
-📌 Notes
-Prices and dividend yields are hardcoded based on current public data.
-
-Outputs overwrite existing .csv files for each run.
-
-Designed for personal simulation and learning purposes.
-
-## Version History
-
-### v1.1 – Class-based Refactor (2025-08-13)
-- Rewrote simulation using OOP (classes for Stock, Market, User, Calculation).
-- Added cleaner stock info display.
-- Logging now uses `csv.DictWriter`.
-- More readable and maintainable code.
-
-### v1.0 – Initial Release
-- Procedural code for DRIP simulation of RCR and CREIT.
-- CSV logging of dividends and shares.
-
+## 📅 Status
+- Built while learning Python  
+- No real-time data fetching  
+- Fixed values for preloaded stocks  
+- **Purely educational**

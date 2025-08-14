@@ -15,21 +15,15 @@ class Stock:
         self.board_lot = board_lot
 
     def get_info(self):
-        if self.payout == 12:
-            freq = 'Monthly'
-        if self.payout == 4:
-            freq = 'Quarterly'
-        if self.payout == 2:
-            freq = 'Bi-monthly'
-        if self.payout == 1:
-            freq = 'Annually'
+        freq_map = {12: 'Monthly', 4: 'Quarterly', 2: 'Bi-Annually', 1: 'Annually'}
+        freq = freq_map.get(self.payout)
 
         print(
-            f'\n{self.name.company} ({self.name.ticker})\n\n'
-            f'Price per Share:      ₱{self.pps:.2f}\n'
-            f'Yield % (Indicated):  {self.div_yield}%\n'
-            f'Dividend Pay-out:     {freq}\n'
-            f'Minimum Board Lot:    {self.board_lot} shares'
+            f'\n{self.name.company}   ({self.name.ticker})\n\n'
+            f'Price per Share:        ₱{self.pps:.2f}\n'
+            f'Yield % (Indicated):    {self.div_yield}%\n'
+            f'Dividend Pay-out:       {freq}\n'
+            f'Minimum Board Lot:      {self.board_lot:,} shares'
         )
         
 class Market:
@@ -67,10 +61,14 @@ class User:
     
 class Calculation:
     result = []
+    t_shares = 0
+    bp_total = 0
 
     @classmethod
     def calculate(cls, selection, user):
-        cls.result = []         # reset before calculations
+        cls.result = []         # reset before new calculations
+        cls.t_shares = 0        # reset before new calculations
+        cls.bp_total = 0        # reset before new calculations
         # what stock to use
         if selection == 1:
             stock = stock_1
@@ -80,27 +78,25 @@ class Calculation:
         # constants
         board_lot_price = stock.board_lot * stock.pps
         dps = ((stock.div_yield / 100) * stock.pps) / stock.payout
-        bp_total = 0
-        t_shares = 0
 
         # calculations
         for t in range(user.time):
             for f in range(stock.payout):
                 for _ in range(12 // stock.payout):
-                    bp_total += user.dep
-                    n_shares = (bp_total // board_lot_price) * stock.board_lot
-                    t_shares += n_shares
+                    cls.bp_total += user.dep
+                    n_shares = (cls.bp_total // board_lot_price) * stock.board_lot
+                    cls.t_shares += n_shares
                     bp_used = n_shares * stock.pps
-                    bp_total -= bp_used
+                    cls.bp_total -= bp_used
 
-                dividend = dps * t_shares
-                bp_total += dividend
+                dividend = dps * cls.t_shares
+                cls.bp_total += dividend
 
                 cls.result.append({
                     'Year': t + 1,
                     'Quarter': f + 1,
                     'Dividends': f'{dividend:.2f}',
-                    'Shares': int(t_shares)
+                    'Shares': int(cls.t_shares)
                 })
 
     @classmethod
@@ -182,6 +178,27 @@ def menu():
         if choice == 1 or choice == 2: 
             return branch(x)
 
+def summary(selection, user):
+    print("--------------------------------------------------------")
+    if selection == 1:
+        stock = stock_1
+    else:
+        stock = stock_2
+
+    total_invest = user.dep * 12 * user.time
+    total_share_cost = stock.pps * Calculation.t_shares
+    roi = ((total_share_cost + Calculation.bp_total) - total_invest) / total_invest
+
+    print('\nSummary: ')
+    stock.get_info()
+    print(f"Monthly Investment:     ₱{user.dep:,.2f}")
+    print(f"Investment Duration:    {user.time} years")
+    print(f'Total Investment:       ₱{total_invest:,.2f}')
+    print(f'Total Shares Bought:    ₱{Calculation.t_shares:,.0f}')
+    print(f'Total Shares Cost:      ₱{total_share_cost:,.2f}')
+    print(f'Return on Investment:   {roi:.2%}\n')
+
+
 def read(selection):
     print("--------------------------------------------------------")
     choice = input("Open Dividend Log (Y|N)? ").strip().lower()
@@ -190,7 +207,9 @@ def read(selection):
     else:
         stock = stock_2
 
-    if choice == 'y':
+    if choice != 'y':
+        print('Exiting Program!')
+    else:
         print(f'\nDividend Log:\n')
         filename = stock.name.ticker.lower() + '_div.csv'
         with open(filename, 'r') as file:
@@ -214,6 +233,7 @@ def main():
     user = User.user_input()
     Calculation.calculate(selection, user)
     Calculation.logging(selection)
+    summary(selection, user)
     read(selection)
 
     
